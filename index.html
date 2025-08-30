@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>toji drawz — artworks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1020;
+      --card:#11121f;
+      --muted:#98a3b3;
+      --accent1: linear-gradient(135deg,#a78bfa 0%, #60a5fa 100%);
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.03);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(96,165,250,0.06), transparent 8%), radial-gradient(900px 400px at 90% 90%, rgba(167,139,250,0.06), transparent 10%), var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:32px;
+    }
+
+    /* container */
+    .wrap{
+      max-width:1150px;
+      margin:0 auto;
+    }
+
+    /* header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+      margin-bottom:28px;
+    }
+    .logo{
+      display:flex;align-items:center;gap:14px;
+    }
+    .logo .mark{
+      width:56px;height:56px;border-radius:12px;
+      background: linear-gradient(135deg,#6ee7b7 0%, #60a5fa 100%);
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:#061029;font-family:Poppins;font-size:20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 -6px 18px rgba(255,255,255,0.04);
+    }
+    .brand{line-height:1}
+    .brand .title{font-family:Poppins;font-weight:700;letter-spacing:0.4px}
+    .brand .sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-size:14px;padding:8px 12px;border-radius:10px}
+    nav a:hover{color:#fff;background:var(--glass)}
+
+    .cta{background:linear-gradient(90deg,#a78bfa,#60a5fa);padding:10px 14px;border-radius:12px;color:#061029;font-weight:700;text-decoration:none}
+
+    /* hero */
+    .hero{
+      display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:center;margin-bottom:34px
+    }
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:28px;border-radius:var(--radius);backdrop-filter: blur(8px);box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+    .hero h1{margin:0;font-size:36px;font-family:Poppins}
+    .hero p{color:var(--muted);line-height:1.5}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .tag{padding:6px 10px;border-radius:999px;background:var(--glass);font-size:13px;color:var(--muted)}
+
+    /* featured art */
+    .featured{
+      border-radius:12px;overflow:hidden;margin-top:18px;border:1px solid rgba(255,255,255,0.03)
+    }
+    .featured img{width:100%;height:260px;object-fit:cover;display:block}
+
+    /* gallery */
+    .gallery-controls{display:flex;align-items:center;justify-content:space-between;margin:22px 0}
+    .filters{display:flex;gap:8px}
+    .filters button{background:var(--glass-2);border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+    .filters button.active{background:linear-gradient(90deg,#7c3aed,#2563eb);color:#051227;border:transparent}
+
+    .grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:14px;padding:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .28s ease, box-shadow .28s ease
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+    .card img{width:100%;height:200px;object-fit:cover;border-radius:10px}
+    .card .meta{padding:8px 6px}
+    .meta .name{font-weight:600}
+    .meta .desc{font-size:13px;color:var(--muted);margin-top:6px}
+
+    /* lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(2,6,23,0.8);display:flex;align-items:center;justify-content:center;padding:28px;z-index:60;opacity:0;pointer-events:none;transition:opacity .18s linear}
+    .lightbox.show{opacity:1;pointer-events:auto}
+    .lightbox .inner{max-width:1000px;width:100%;border-radius:14px;overflow:hidden}
+    .lightbox img{width:100%;height:auto;display:block}
+    .lb-meta{padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;justify-content:space-between;align-items:center}
+
+    /* footer */
+    footer{margin-top:36px;color:var(--muted);font-size:14px;display:flex;justify-content:space-between;align-items:center}
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      header{flex-direction:column;align-items:flex-start;gap:14px}
+    }
+    @media (max-width:600px){
+      .grid{grid-template-columns:1fr}
+      .featured img{height:200px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <div class="mark">TD</div>
+        <div class="brand">
+          <div class="title">toji drawz</div>
+          <div class="sub">digital & traditional artworks</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#gallery">Gallery</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="#contact">Commissions</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <h1>toji drawz — artworks that whisper</h1>
+        <p>Curated collection of sketches, digital paintings and mixed-media experiments. Browse recent works and commission a custom piece.</p>
+        <div class="tags">
+          <span class="tag">Character</span>
+          <span class="tag">Fanart</span>
+          <span class="tag">Illustration</span>
+          <span class="tag">Sketches</span>
+        </div>
+
+        <div class="featured">
+          <img src="D:\programming\webpages\toji drawz\wanna be yours art.jpg" alt="featured artwork">
+        </div>
+      </div>
+
+      <aside style="padding:18px;border-radius:var(--radius);background:var(--card);box-shadow:0 8px 24px rgba(2,6,23,0.6);">
+        <h3 style="margin-top:0;font-family:Poppins">About Toji</h3>
+        <p style="color:var(--muted);font-size:14px">Artist working in digital and traditional mediums. Likes moody palettes, delicate linework anime and manga art themes.</p>
+        <div style="margin-top:12px">
+          <strong>Follow</strong>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <a href="https://www.instagram.com/toji_drawz/?__pwa=1#" target="_blank" 
+   style="font-size:13px;color:var(--muted);text-decoration:none">
+   <b>Instagram @toji_drawz👈</b>
+</a>
+
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="gallery">
+      <div class="gallery-controls">
+        <h2 style="margin:0;font-family:Poppins">Gallery</h2>
+        <div class="filters">
+          <button class="filter active" data-cat="all">All</button>
+          <button class="filter" data-cat="digital">Digital</button>
+          <button class="filter" data-cat="traditional">Traditional</button>
+          <button class="filter" data-cat="sketch">Sketch</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid">
+        <!-- Replace the src with your artwork files. Keep the data attributes to enable filtering -->
+         <div class="card" data-cat="traditional">
+          <img src="D:\programming\webpages\toji drawz\IMG_20250423_184716.jpg" alt="art 4">
+          <div class="meta"><div class="name">Guts from berserk</div><div class="desc">one of my craziest and highly detailed artwork</div></div>
+        </div>
+        <div class="card" data-cat="traditional">
+          <img src="D:\programming\webpages\toji drawz\IMG-20250811-WA0004.jpg" alt="art 4">
+          <div class="meta"><div class="name">Guts🗿</div><div class="desc">one of my craziest and highly detailed artwork</div></div>
+        </div>
+        <div class="card" data-cat="digital">
+          <img src="D:\programming\webpages\toji drawz\pal_pal.png" alt="art 1">
+          <div class="meta"><div class="name">pretty</div><div class="desc">Digital art — 2025</div></div>
+        </div>
+        <div class="card" data-cat="digital">
+          <img src="D:\programming\webpages\toji drawz\smavia (1).png" alt="art 2">
+          <div class="meta"><div class="name">smavia san</div><div class="desc">real into animeart</div></div>
+        </div>
+        <div class="card" data-cat="traditional">
+          <img src="D:\programming\webpages\toji drawz\IMG-20250703-WA0001.jpg" alt="art 3">
+          <div class="meta"><div class="name">Ace🗿</div><div class="desc"></div></div>
+        </div>
+        <div class="card" data-cat="sketch">
+          <img src="D:\programming\webpages\toji drawz\sanemi.jpg" alt="art 6">
+          <div class="meta"><div class="name">Sanemi</div><div class="desc">pencil sketch</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true">
+      <div class="inner">
+        <img src="" alt="expanded artwork" id="lb-img">
+        <div class="lb-meta">
+          <div id="lb-title">Title</div>
+          <div id="lb-actions">
+            <button id="prev">◀</button>
+            <button id="next">▶</button>
+            <button id="close">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="about" style="margin-top:30px">
+      <h3 style="font-family:Poppins">About</h3>
+      <p style="color:var(--muted)">Hello — I'm sukhjinder singh (toji). I create character-driven pieces inspired by anime and manga art. I accept commissions and collaborate on small projects. Use the contact section below to reach me.</p>
+    </section>
+
+    <section id="contact" style="margin-top:22px">
+      <h3 style="font-family:Poppins">Contact & Commissions</h3>
+      <p style="color:var(--muted)">Email: <a href="mailto:ss9978376@gmail.com" style="color:#9fb8ff">ss9978376@gmail.com</a> • Rate: negotiable • Delivery: depends on scope</p>
+      <a href="https://www.instagram.com/toji_drawz/?__pwa=1#" target="_blank" 
+   style="font-size:13px;color:var(--muted);text-decoration:none">
+   <h1><b>Instagram @toji_drawz👈</b></h1>
+    </section>
+
+    <footer>
+      <div>© <strong>toji drawz</strong> — all artworks © their creator</div>
+      <div style="color:var(--muted)">Built with ❤️</div>
+    </footer>
+  </div>
+
+  <script>
+    // Simple filtering
+    const filters = document.querySelectorAll('.filter');
+    const cards = Array.from(document.querySelectorAll('.card'));
+    filters.forEach(btn => btn.addEventListener('click', ()=>{
+      document.querySelector('.filter.active').classList.remove('active');
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      cards.forEach(c=>{
+        c.style.display = (cat==='all' || c.dataset.cat===cat) ? '' : 'none';
+      });
+    }));
+
+    // Lightbox
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbTitle = document.getElementById('lb-title');
+    const allCards = document.querySelectorAll('.grid .card');
+    let currentIndex = 0;
+    const visibleCards = ()=>Array.from(document.querySelectorAll('.grid .card')).filter(c=>c.style.display !== 'none');
+
+    function openLightbox(index){
+      const visible = visibleCards();
+      const card = visible[index];
+      if(!card) return;
+      const img = card.querySelector('img');
+      lbImg.src = img.src;
+      lbTitle.textContent = card.querySelector('.name')?.textContent || '';
+      lb.classList.add('show');
+      lb.setAttribute('aria-hidden','false');
+      currentIndex = index;
+    }
+
+    function closeLightbox(){
+      lb.classList.remove('show');
+      lb.setAttribute('aria-hidden','true');
+      lbImg.src = '';
+    }
+
+    document.getElementById('close').addEventListener('click', closeLightbox);
+    document.getElementById('prev').addEventListener('click', ()=>{
+      const v = visibleCards();
+      if(v.length===0) return;
+      currentIndex = (currentIndex - 1 + v.length) % v.length;
+      openLightbox(currentIndex);
+    });
+    document.getElementById('next').addEventListener('click', ()=>{
+      const v = visibleCards();
+      if(v.length===0) return;
+      currentIndex = (currentIndex + 1) % v.length;
+      openLightbox(currentIndex);
+    });
+
+    // open when clicking card
+    function indexAmongVisible(el){
+      return visibleCards().indexOf(el);
+    }
+    allCards.forEach(card=>{
+      card.addEventListener('click', ()=>{
+        const idx = indexAmongVisible(card);
+        openLightbox(idx);
+      });
+    });
+
+    // close on backdrop click or esc
+    lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeLightbox(); if(e.key==='ArrowRight') document.getElementById('next').click(); if(e.key==='ArrowLeft') document.getElementById('prev').click(); });
+
+    // small accessibility/polish: lazy load images with intersection observer
+    const imgs = document.querySelectorAll('img');
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{
+          if(en.isIntersecting){
+            const i = en.target;
+            if(i.dataset.src){ i.src = i.dataset.src; }
+            io.unobserve(i);
+          }
+        });
+      },{rootMargin:'200px'});
+      imgs.forEach(i=>{ if(i.dataset.src) io.observe(i); });
+    }
+
+  </script>
+</body>
+</html>
